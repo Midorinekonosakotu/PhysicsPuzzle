@@ -4,23 +4,23 @@ using UnityEngine;
 public class SlingshotController : MonoBehaviour
 {
     [SerializeField]
-    private Transform launchPoint;
+    private Transform launchPoint;  // スリングショットの弾を発射する位置
 
     [SerializeField]
     private float launchPower = 10f;    // 引っ張り距離をどれだけ強い力に変換するか
 
     [SerializeField]
-    private float maxDistance = 2f;
+    private float maxDistance = 2f; // スリングショットの最大引っ張り距離
 
-    private bool isDragging;
+    private bool isDragging;    // ドラッグ中かどうかのフラグ
 
-    private Vector3 startPosition;
+    private Vector3 startPosition;  // スリングショットの弾の初期位置
 
     private Rigidbody2D projectileRb;   // 弾のRigidbody2D
 
-    private ProjectileController projectileController;
+    private ProjectileController projectileController; // 弾のProjectileController
 
-    private ProjectileController currentProjectile; // 現在装填されている弾
+    private ProjectileController currentProjectile; // 現在の弾のProjectileController
 
     private void Start()
     {
