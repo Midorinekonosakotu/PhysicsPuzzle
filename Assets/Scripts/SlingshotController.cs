@@ -4,9 +4,6 @@ using UnityEngine;
 public class SlingshotController : MonoBehaviour
 {
     [SerializeField]
-    private Transform projectile;
-
-    [SerializeField]
     private Transform launchPoint;
 
     [SerializeField]
@@ -23,16 +20,17 @@ public class SlingshotController : MonoBehaviour
 
     private ProjectileController projectileController;
 
+    private ProjectileController currentProjectile; // 現在装填されている弾
 
     private void Start()
     {
         startPosition = launchPoint.position;
 
         projectileRb = 
-            projectile.GetComponent<Rigidbody2D>();
+            currentProjectile.GetComponent<Rigidbody2D>();
 
         projectileController =
-            projectile.GetComponent<ProjectileController>();
+            currentProjectile.GetComponent<ProjectileController>();
     }
 
 
@@ -86,7 +84,7 @@ public class SlingshotController : MonoBehaviour
         }
 
 
-        projectile.position =
+        currentProjectile.transform.position =
             startPosition + offset;
     }
 
@@ -95,14 +93,27 @@ public class SlingshotController : MonoBehaviour
     {
         isDragging = false;
 
-        projectileRb.bodyType = 
+        Rigidbody2D rb =
+            currentProjectile.GetComponent<Rigidbody2D>();
+
+        rb.bodyType =
             RigidbodyType2D.Dynamic;
 
         Vector2 direction = 
-            startPosition - projectile.position;    // 発射方向の計算
+            startPosition - currentProjectile.transform.position;    // 発射方向の計算
 
         projectileController.Launch(
             direction * launchPower
         );
+    }
+
+    public void LoadProjectile(
+        ProjectileController projectile)
+    {
+        currentProjectile = projectile;
+
+
+        projectile.transform.position =
+            launchPoint.position;
     }
 }
