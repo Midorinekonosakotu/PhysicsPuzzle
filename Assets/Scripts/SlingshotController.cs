@@ -3,36 +3,36 @@ using UnityEngine;
 
 public class SlingshotController : MonoBehaviour
 {
-    [SerializeField]
-    private Transform launchPoint;  // スリングショットの弾を発射する位置
+    private ProjectileController currentProjectile;
 
     [SerializeField]
-    private float launchPower = 10f;    // 引っ張り距離をどれだけ強い力に変換するか
+    private Transform launchPoint;
 
     [SerializeField]
-    private float maxDistance = 2f; // スリングショットの最大引っ張り距離
+    private float maxDistance = 2f;
 
-    private bool isDragging;    // ドラッグ中かどうかのフラグ
+    [SerializeField]
+    private float launchPower = 10f;
 
-    private Vector3 startPosition;  // スリングショットの弾の初期位置
+    private bool isDragging;
 
-    private Rigidbody2D projectileRb;   // 弾のRigidbody2D
+    private Vector3 startPosition;
 
-    private ProjectileController projectileController; // 弾のProjectileController
 
-    private ProjectileController currentProjectile; // 現在の弾のProjectileController
+    public void LoadProjectile(
+            ProjectileController projectile)
+    {
+        currentProjectile = projectile;
+
+
+        projectile.transform.position =
+            launchPoint.position;
+    }
 
     private void Start()
     {
         startPosition = launchPoint.position;
-
-        projectileRb = 
-            currentProjectile.GetComponent<Rigidbody2D>();
-
-        projectileController =
-            currentProjectile.GetComponent<ProjectileController>();
     }
-
 
     private void Update()
     {
@@ -54,40 +54,41 @@ public class SlingshotController : MonoBehaviour
         }
     }
 
-
     private void StartDrag()
     {
         isDragging = true;
 
-        projectileRb.bodyType = 
-            RigidbodyType2D.Kinematic;
-    }
+        Rigidbody2D rb =
+            currentProjectile.GetComponent<Rigidbody2D>();
 
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+    }
 
     private void Drag()
     {
         Vector3 mousePos =
-            Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+            Camera.main.ScreenToWorldPoint(
+                Input.mousePosition
+            );
 
         mousePos.z = 0;
-
 
         Vector3 offset =
             mousePos - startPosition;
 
-
         if(offset.magnitude > maxDistance)
         {
             offset =
-                offset.normalized * maxDistance;
+                offset.normalized *
+                maxDistance;
         }
-
 
         currentProjectile.transform.position =
             startPosition + offset;
     }
-
 
     private void Release()
     {
@@ -99,21 +100,12 @@ public class SlingshotController : MonoBehaviour
         rb.bodyType =
             RigidbodyType2D.Dynamic;
 
-        Vector2 direction = 
-            startPosition - currentProjectile.transform.position;    // 発射方向の計算
+        Vector2 direction =
+            startPosition -
+            currentProjectile.transform.position;
 
-        projectileController.Launch(
+        currentProjectile.Launch(
             direction * launchPower
         );
-    }
-
-    public void LoadProjectile(
-        ProjectileController projectile)
-    {
-        currentProjectile = projectile;
-
-
-        projectile.transform.position =
-            launchPoint.position;
     }
 }

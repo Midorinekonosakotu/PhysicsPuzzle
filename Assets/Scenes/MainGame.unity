@@ -447,8 +447,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlingshotController
   launchPoint: {fileID: 443979070}
-  launchPower: 10
   maxDistance: 2
+  launchPower: 10
 --- !u!4 &735367563
 Transform:
   m_ObjectHideFlags: 0
@@ -522,6 +522,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1751172153}
   - component: {fileID: 1751172154}
+  - component: {fileID: 1751172155}
   - component: {fileID: 1751172152}
   - component: {fileID: 1751172151}
   - component: {fileID: 1751172150}
@@ -693,6 +694,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileLauncher
   projectile: {fileID: 9021800083563402119, guid: 428a1fa4aeee22d4195294dbe20caca8, type: 3}
   launchForce: {x: 10, y: 5}
+--- !u!114 &1751172155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751172149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4257aa36526d04c8fd083c6e9d3910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetController
+  hp: 10
+  destroyPower: 5
 --- !u!1 &1851569872
 GameObject:
   m_ObjectHideFlags: 0
